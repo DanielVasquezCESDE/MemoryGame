@@ -1,18 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="/diseño.css" />
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous" />
-        <title>Memory_cards</title>
-    </head>
-    <body >
-        <h1>Get Reck</h1>
-        <script src="/juego.js"></script>
-    </body>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/diseño.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <title>Memory_cards</title>
+</head>
+
+<body class="text-bg-dark">
+    <div class="container">
+        <div class="div row">
+            <div class="col-12 py-3">
+                <!--Titulo-->
+                <h1 class="bg-gradient display-3 fw-semibold text-center">
+                    Juego de memoria con tarjetas
+                </h1>
+                <hr />
+            </div>
+            <div class="col-12 my-2">
+                <!--Estadisticas-->
+                <ul class="nav nav-pills nav-justified">
+                    <li class="nav-item w-100 btn btn-lg btn-outline-primary"">
+                            <a class=" nav-link" href="#">Jugador: <span class="jugador">Player 1</span>
+                        </a>
+                    </li>
+                    <li class="nav-item w-100 btn btn-lg btn-outline-primary">
+                        <a class="nav-link" href="#">Intentos <span class="intento">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item w-100 btn btn-lg btn-outline-primary">
+                        <a class="nav-link" href="#">
+                            Aciertos <span class="acierto">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item w-100 btn btn-lg btn-outline-primary">
+                        <a class="nav-link">Timer <span class="tiempo">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item w-100 btn btn-lg btn-outline-primary">
+                        <a class="nav-link">Level <span class="nivel">1</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link">
+                            <span class="btn-iniciar btn btn-success">Start</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="div row">
+            <div class="col-7">
+                <!--Dashboard-->
+                <h2 class="text-info">Tablero de juego</h2>
+                <hr class="text-danger"/>
+                <div class="tablero row g-3">
+
+                </div>
+            </div>
+            <div class="col-5">
+                <table class="table my-3 records">
+                    <thead>
+                        <th>#</th>
+                        <th>Jugador</th>
+                        <th>Tiempo</th>
+                        <th>Attemtps</th>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div> <!--Records-->
+        </div>
+    </div>
+    <script src="/juego.js"></script>
+</body>
+
 </html>
