@@ -1,3 +1,25 @@
 .height-img {
-    height: 250px;
+    height: 100px;
+    border-radius: 15px;
+    box-shadow: 7px 8px 26px -1px rgba(212, 212, 212, 0.89);
+    -webkit-box-shadow: 7px 8px 26px -1px rgba(212, 212, 212, 0.89);
+    -moz-box-shadow: 7px 8px 26px -1px rgba(212, 212, 212, 0.89);
+
+    transform: skew(16deg);
+    -webkit-transform: skew(16deg);
+    -moz-transform: skew(16deg);
+}
+
+.tarjeta {
+    padding: 20px;
+}
+
+.alerta_tiempo {
+    color: red !important;
+    font-size: 110% !important;
+    transform: scale(1.2) !important;
+}
+
+.aumentar:hover {
+    transform: scale(1.2);
 }
