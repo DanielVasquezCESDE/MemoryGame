@@ -64,6 +64,12 @@ let tablero = d.querySelector(`.tablero`)
 let start = d.querySelector(`.btn-iniciar`)
 let img_Name = []; //Se guardan los nombres para luego compararlos
 let img_ID = [];
+const eligio = new Audio("sounds/PasarMouse.mp3");
+const paso_nivel = new Audio("sounds/NextLevel.mp3");
+const pierdo_nivel = new Audio("sounds/GameOver.mp3");
+const match = new Audio("sounds/succeed.mp3");
+const wrong = new Audio("sounds/wrong.mp3");
+const cursor = new Audio("sounds/hover.mp3");
 
 let aciertos_contador = 0;
 let intentos_contador = 0;
@@ -79,7 +85,6 @@ let tiempo_display = d.querySelector(".tiempo");
 let level_display = d.querySelector(".nivel");
 
 start.addEventListener("click", function () {
-
     //Se comprueba si se encuentra en juego (Se presionoó botón)
     if (en_juego == false && level == 1) {
         en_juego = true;
@@ -118,6 +123,7 @@ function Agregar_Img() {
         img.id = posicion //Se le agrega la posicion al ID
         img.alt = imagen.nombre //Se le agrage el nombre del personaje a Alt
         img.src = "images/cranium-2028555_1280.png" //Se le agrega la URL a la propiedad URL
+        img.addEventListener("mouseover", ()=>cursor.play())
         img.addEventListener("click", Mostrar_Img) //Se le agrega el evento click a la tarjeta
         div.appendChild(img)
         tablero.appendChild(div)
@@ -126,6 +132,7 @@ function Agregar_Img() {
 
 //Mostrar las img ocultas/Flip over
 function Mostrar_Img() {
+    eligio.play();
     let img_id = this.getAttribute("id")
     this.src = Round_Images[img_id].url
     this.className = "height-img"
@@ -134,7 +141,7 @@ function Mostrar_Img() {
 
     if (img_Name.length == 2) //Cuántos datos en el array de nombres de imagenes selected 
     {
-        setTimeout(Comparar_Img, 250) //Después de 250 ms se muestra el alert de si hizo match o no
+        setTimeout(Comparar_Img, 100) //Después de 250 ms se muestra el alert de si hizo match o no
     }
 }
 
@@ -150,6 +157,7 @@ function Comparar_Img() {
     }
     else {
         if (img_Name[0] == img_Name[1]) {
+            match.play();
             imagenes_restantes[img_ID[0]].src = "images/pngtree-check-mark-icon-design-template-vector-png-image_6331394.jpg"
             imagenes_restantes[img_ID[1]].src = "images/pngtree-check-mark-icon-design-template-vector-png-image_6331394.jpg"
 
@@ -160,6 +168,7 @@ function Comparar_Img() {
             aciertos.textContent = aciertos_contador;
         }
         else {
+            wrong.play()
             imagenes_restantes[img_ID[0]].src = "images/cranium-2028555_1280.png"
             imagenes_restantes[img_ID[1]].src = "images/cranium-2028555_1280.png"
 
@@ -173,6 +182,7 @@ function Comparar_Img() {
 
     //Comprobar si se aciertan todas las imágenes y se pasa el nivel
     if (level == 1 && aciertos_contador == 6) {
+        paso_nivel.play()
         alert("🚩🏴‍☠️ >> Next level >> 🚩🏴‍☠️")
         level++;
         level_display.textContent = level;
@@ -187,6 +197,7 @@ function Comparar_Img() {
         en_juego = false;
     }
     else if (level == 2 && aciertos == 8){
+        paso_nivel.play()
         alert("🚩🏴‍☠️ >> Next level >> 🚩🏴‍☠️")
         level++;
         level_display.textContent = level;
@@ -201,6 +212,7 @@ function Comparar_Img() {
         en_juego = false;
     }
     else if (level == 3 && aciertos == 10){
+        paso_nivel.play()
         alert("💥💥 Success! 💥💥")
         location.reload()
     }
@@ -233,6 +245,7 @@ function Tiempo_Juego () {
         }
 
         else if (temporizador == 0) {
+            pierdo_nivel.play()
             alert("🕖TIME OUT🕞")
             clearInterval(time_elapsed)
             location.reload();
