@@ -64,6 +64,12 @@ let tablero = d.querySelector(`.tablero`)
 let start = d.querySelector(`.btn-iniciar`)
 let img_Name = []; //Se guardan los nombres para luego compararlos
 let img_ID = [];
+const eligio = new Audio("sounds/PasarMouse.mp3");
+const paso_nivel = new Audio("sounds/NextLevel.mp3");
+const pierdo_nivel = new Audio("sounds/GameOver.mp3");
+const match = new Audio("sounds/succeed.mp3");
+const wrong = new Audio("sounds/wrong.mp3");
+const cursor = new Audio("sounds/hover.mp3");
 
 let aciertos_contador = 0;
 let total_intentos = 0;
@@ -97,7 +103,6 @@ d.addEventListener("DOMContentLoaded", () => {
 });
 
 start.addEventListener("click", function () {
-
     //Se comprueba si se encuentra en juego (Se presionoó botón)
     if (en_juego == false && level == 1) {
         Abrir_Modal();     
@@ -145,6 +150,7 @@ function Agregar_Img() {
         img.id = posicion //Se le agrega la posicion al ID
         img.alt = imagen.nombre //Se le agrage el nombre del personaje a Alt
         img.src = "images/cranium-2028555_1280.png" //Se le agrega la URL a la propiedad URL
+        img.addEventListener("mouseover", ()=>cursor.play())
         img.addEventListener("click", Mostrar_Img) //Se le agrega el evento click a la tarjeta
         div.appendChild(img)
         tablero.appendChild(div)
@@ -162,7 +168,7 @@ function Mostrar_Img() {
 
     if (img_Name.length == 2) //Cuántos datos en el array de nombres de imagenes selected 
     {
-        setTimeout(Comparar_Img, 250) //Después de 250 ms se muestra el alert de si hizo match o no
+        setTimeout(Comparar_Img, 100) //Después de 250 ms se muestra el alert de si hizo match o no
     }
 }
 
@@ -272,6 +278,7 @@ function Tiempo_Juego() {
         }
 
         else if (temporizador == 0) {
+            pierdo_nivel.play()
             alert("🕖TIME OUT🕞")
             clearInterval(time_elapsed)
             location.reload();
