@@ -66,9 +66,12 @@ let img_Name = []; //Se guardan los nombres para luego compararlos
 let img_ID = [];
 
 let aciertos_contador = 0;
+let total_intentos = 0;
+let tiempo_juego = 0;
 let intentos_contador = 0;
-let temporizador = 55;
+let temporizador = 65;
 var time_elapsed;
+let time_left = 0;
 let level = 1;
 let Round_Images;
 let en_juego = false;
@@ -77,21 +80,35 @@ let aciertos = d.querySelector(".acierto")
 let intentos = d.querySelector(".intento")
 let tiempo_display = d.querySelector(".tiempo");
 let level_display = d.querySelector(".nivel");
+let player_name = d.querySelector(".jugador")
+let tabla_registro = d.querySelector('.records tbody')
+const select_sonido = new Audio ('sounds/Selected.mp3')
+const match_sonido = new Audio ('sounds/succeed.mp3')
+const wrong_sonido = new Audio ('sounds/wrong.mp3')
+const pasaste_sonido = new Audio ('sounds/NextLevel.mp3')
+const gameover_sonido = new Audio ('sounds/GameOver.mp3')
+const beat_background = new Audio ('sounds/Memory_Game_beat.mp3')
+let fondoBody = d.querySelector("body");
+
+
+d.addEventListener("DOMContentLoaded", () => {
+    fondoBody.classList.add("fondo_1")
+    mostrarDatos();
+});
 
 start.addEventListener("click", function () {
 
     //Se comprueba si se encuentra en juego (Se presionoó botón)
     if (en_juego == false && level == 1) {
-        en_juego = true;
-        level_One()
+        Abrir_Modal();     
     }
     else if (en_juego == false && level == 2) {
         en_juego = true;
-        level_Two()
+        level_Two();
     }
     else if (en_juego == false && level == 3) {
         en_juego = true;
-        level_Three()
+        level_Three();
     }
 })
 
@@ -102,7 +119,7 @@ start.addEventListener("click", function () {
 function Agregar_Img() {
     if (level == 1) {
         Round_Images = imageN1
-    } 
+    }
     else if (level == 2) {
         Round_Images = imageN2
     }
@@ -110,11 +127,21 @@ function Agregar_Img() {
         Round_Images = imageN3
     }
 
+    Round_Images.sort(() => Math.random() - 0.5)
+
     Round_Images.forEach((imagen, posicion) => {
         let div = d.createElement(`div`)
         div.className = "col-3"
         let img = d.createElement(`img`)
-        img.className = "img-fluid height-img aumentar"
+        if (level == 1) {
+            img.className = "img-fluid height-img aumentar shadow-lg"
+        }
+        else if (level == 2) {
+            img.className = "img-fluid height-img aumentar cuadro shadow-lg"
+        }
+        else if (level == 3) {
+            img.className = "img-fluid height-img aumentar shadow-lg"
+        }
         img.id = posicion //Se le agrega la posicion al ID
         img.alt = imagen.nombre //Se le agrage el nombre del personaje a Alt
         img.src = "images/cranium-2028555_1280.png" //Se le agrega la URL a la propiedad URL
@@ -126,6 +153,7 @@ function Agregar_Img() {
 
 //Mostrar las img ocultas/Flip over
 function Mostrar_Img() {
+    select_sonido.play()
     let img_id = this.getAttribute("id")
     this.src = Round_Images[img_id].url
     this.className = "height-img"
@@ -150,6 +178,7 @@ function Comparar_Img() {
     }
     else {
         if (img_Name[0] == img_Name[1]) {
+            match_sonido.play()
             imagenes_restantes[img_ID[0]].src = "images/pngtree-check-mark-icon-design-template-vector-png-image_6331394.jpg"
             imagenes_restantes[img_ID[1]].src = "images/pngtree-check-mark-icon-design-template-vector-png-image_6331394.jpg"
 
@@ -160,6 +189,7 @@ function Comparar_Img() {
             aciertos.textContent = aciertos_contador;
         }
         else {
+            wrong_sonido.play()
             imagenes_restantes[img_ID[0]].src = "images/cranium-2028555_1280.png"
             imagenes_restantes[img_ID[1]].src = "images/cranium-2028555_1280.png"
 
@@ -173,6 +203,28 @@ function Comparar_Img() {
 
     //Comprobar si se aciertan todas las imágenes y se pasa el nivel
     if (level == 1 && aciertos_contador == 6) {
+        fondoBody.classList.replace("fondo_1", "fondo_2")
+        pasaste_sonido.play()
+        alert("🚩🏴‍☠️ >> Next level >> 🚩🏴‍☠️")
+        total_intentos += intentos_contador;
+        tiempo_juego += temporizador;
+        time_left += (65 - temporizador)
+        obtenerDatos();
+        level++;
+        level_display.textContent = level;
+        intentos_contador = 0;
+        intentos.textContent = intentos_contador;
+        aciertos_contador = 0;
+        aciertos.textContent = aciertos_contador;
+        clearInterval(time_elapsed);
+        temporizador = 55;
+        tiempo_display.textContent = temporizador;
+        Remove_Images()
+        en_juego = false;
+    }
+    else if (level == 2 && aciertos == 8) {
+        fondoBody.classList.replace("fondo_2", "fondo_3")
+        pasaste_sonido.play()
         alert("🚩🏴‍☠️ >> Next level >> 🚩🏴‍☠️")
         level++;
         level_display.textContent = level;
@@ -186,43 +238,30 @@ function Comparar_Img() {
         Remove_Images()
         en_juego = false;
     }
-    else if (level == 2 && aciertos == 8){
-        alert("🚩🏴‍☠️ >> Next level >> 🚩🏴‍☠️")
-        level++;
-        level_display.textContent = level;
-        intentos_contador = 0;
-        intentos.textContent = intentos_contador;
-        aciertos_contador = 0;
-        aciertos.textContent = aciertos_contador;
-        clearInterval(time_elapsed);
-        temporizador = 35;
-        tiempo_display.textContent = temporizador;
-        Remove_Images()
-        en_juego = false;
-    }
-    else if (level == 3 && aciertos == 10){
+    else if (level == 3 && aciertos == 10) {
+        pasaste_sonido.play()
         alert("💥💥 Success! 💥💥")
         location.reload()
     }
 }
 
-function level_One () {
+function level_One() {
     Agregar_Img()
     level_display.textContent = level;
     Tiempo_Juego()
 }
 
-function level_Two () {
+function level_Two() {
     Agregar_Img()
     Tiempo_Juego()
 }
 
-function level_Three () {
+function level_Three() {
     Agregar_Img()
     Tiempo_Juego()
 }
 
-function Tiempo_Juego () {
+function Tiempo_Juego() {
     time_elapsed = setInterval(() => {
         temporizador--;
         tiempo_display.textContent = temporizador;
@@ -240,10 +279,38 @@ function Tiempo_Juego () {
     }, 1000)
 }
 
-function Remove_Images () {
+function Remove_Images() {
     let removedImages = d.querySelectorAll(".tablero div");
     removedImages.forEach(img => {
         img.remove();
     });
 }
 
+//Mostrar ventana para solicitar nombre
+function Abrir_Modal() {
+
+    let ventana_modal = d.querySelector('#exampleModal');
+    let modal_cerrado = d.querySelectorAll(".cerrar");
+    let inputJugador = d.querySelector(".nombre_juga")
+    let btn_guardarNombre = d.querySelector(".registrar")
+
+    modal_cerrado.forEach((btn)=>{
+        btn.addEventListener('click', ()=>{
+            ventana_modal.classList.remove("show");
+            ventana_modal.style.display = "none";
+        })
+    })
+
+    ventana_modal.classList.add('show')
+    ventana_modal.style.display = 'block';
+
+    btn_guardarNombre.addEventListener('click', ()=> {
+        player_name.textContent = inputJugador.value;
+        ventana_modal.classList.remove("show");
+        ventana_modal.style.display = "none";
+        //Inicis el nivel 1 sólo después de cerrar la ventana emergente
+        en_juego = true;
+        level_One()
+        beat_background.play()
+    })
+}

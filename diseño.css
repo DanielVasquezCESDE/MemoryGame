@@ -1,10 +1,27 @@
+body {
+    background-image: url("images/fondo1.jpg");
+    background-size: cover;
+    height: 100vh;
+}
 .height-img {
     height: 180px;
     width: 160px;
     margin-bottom: 20px;
     margin-right: 20px;
     border-radius: 15px;
+}
 
+.cuadro {
+    background-color: rgba(240, 248, 255, 0.346);
+}
+
+.height-img2 {
+    height: 180px;
+    width: 160px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    border-radius: 15px;
+    background-color: rgba(240, 248, 255, 0.347);
 }
 
 
@@ -17,4 +34,18 @@
 
 .aumentar:hover {
     transform: scale(1.2);
+}
+
+.fondo_1 .fondo_2 .fondo_3{
+    background-image: url("images/fondo3.jpg");
+    background-size: cover;
+    height: 100vh;
+}
+
+.fondo_2 {
+    background-image: url("images/fondo2.jpg");
+}
+
+.fondo_3 {
+    background-image: url("images/fondo1.jpg");
 }
